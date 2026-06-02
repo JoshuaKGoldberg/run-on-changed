@@ -39,6 +39,13 @@ npx run-on-changed --since origin/main -- npx eslint
 npx run-on-changed --files "src/**/*.ts" -- npx prettier --write
 ```
 
+TypeScript path aliases (`compilerOptions.paths`) are resolved from a `tsconfig.json` in the current directory, so aliased imports are followed just like relative ones.
+Point at a different config with `--tsconfig`:
+
+```shell
+npx run-on-changed --tsconfig configs/tsconfig.json -- npx eslint
+```
+
 ### Node.js API
 
 ```ts
@@ -49,6 +56,7 @@ const exitCode = await runOnChanged({
 	cwd: process.cwd(),
 	since: "origin/main", // optional
 	files: ["src/**/*.ts"], // optional
+	tsconfig: "configs/tsconfig.json", // optional
 });
 ```
 

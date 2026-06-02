@@ -25,4 +25,5 @@ export interface RunOnChangedSettings {
 	cwd: string;
 	files?: string[];
 	since?: string;
+	tsconfig?: string;
 }

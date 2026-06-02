@@ -28,6 +28,17 @@ describe(parseArguments, () => {
 		expect(settings.files).toEqual(["src/**/*.ts", "test/**/*.ts"]);
 	});
 
+	it("parses the path when --tsconfig is provided before the separator", () => {
+		const settings = parseArguments([
+			"--tsconfig",
+			"configs/tsconfig.json",
+			"--",
+			"eslint",
+		]);
+
+		expect(settings.tsconfig).toBe("configs/tsconfig.json");
+	});
+
 	it("throws when there is no separator", () => {
 		expect(() => parseArguments(["eslint"])).toThrow("Usage:");
 	});

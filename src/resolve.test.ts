@@ -1,4 +1,4 @@
-import { mkdtemp, realpath, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, realpath, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -39,6 +39,64 @@ describe(createResolveSpecifier, () => {
 		const resolveSpecifier = createResolveSpecifier();
 
 		const resolved = resolveSpecifier(process.cwd(), "oxc-parser");
+
+		expect(resolved).toBeUndefined();
+	});
+});
+
+describe("createResolveSpecifier with tsconfig path aliases", () => {
+	let aliasDirectory: string;
+	let plainDirectory: string;
+
+	beforeAll(async () => {
+		aliasDirectory = await realpath(
+			await mkdtemp(path.join(tmpdir(), "run-on-changed-alias-")),
+		);
+		await mkdir(path.join(aliasDirectory, "src"));
+		await writeFile(
+			path.join(aliasDirectory, "src", "target.ts"),
+			"export const value = 1;",
+		);
+		await writeFile(
+			path.join(aliasDirectory, "tsconfig.json"),
+			JSON.stringify({
+				compilerOptions: { paths: { "alias/*": ["./src/*"] } },
+			}),
+		);
+
+		plainDirectory = await realpath(
+			await mkdtemp(path.join(tmpdir(), "run-on-changed-plain-")),
+		);
+	});
+
+	afterAll(async () => {
+		await rm(aliasDirectory, { force: true, recursive: true });
+		await rm(plainDirectory, { force: true, recursive: true });
+	});
+
+	it("resolves an aliased specifier using the tsconfig found in cwd", () => {
+		const resolveSpecifier = createResolveSpecifier({ cwd: aliasDirectory });
+
+		const resolved = resolveSpecifier(aliasDirectory, "alias/target");
+
+		expect(resolved).toBe(path.join(aliasDirectory, "src", "target.ts"));
+	});
+
+	it("resolves an aliased specifier using an explicitly provided tsconfig path", () => {
+		const resolveSpecifier = createResolveSpecifier({
+			cwd: aliasDirectory,
+			tsconfig: "tsconfig.json",
+		});
+
+		const resolved = resolveSpecifier(aliasDirectory, "alias/target");
+
+		expect(resolved).toBe(path.join(aliasDirectory, "src", "target.ts"));
+	});
+
+	it("returns undefined for an aliased specifier when cwd has no tsconfig", () => {
+		const resolveSpecifier = createResolveSpecifier({ cwd: plainDirectory });
+
+		const resolved = resolveSpecifier(plainDirectory, "alias/target");
 
 		expect(resolved).toBeUndefined();
 	});

@@ -1,8 +1,19 @@
+import { existsSync } from "node:fs";
+import path from "node:path";
 import { ResolverFactory } from "oxc-resolver";
 
 import { ResolveSpecifier } from "./types.js";
 
-export function createResolveSpecifier(): ResolveSpecifier {
+export interface CreateResolveSpecifierSettings {
+	cwd: string;
+	tsconfig?: string;
+}
+
+export function createResolveSpecifier(
+	settings: CreateResolveSpecifierSettings = { cwd: process.cwd() },
+): ResolveSpecifier {
+	const configFile = resolveConfigFile(settings);
+
 	const resolver = new ResolverFactory({
 		conditionNames: ["node", "import", "default"],
 		extensionAlias: {
@@ -11,6 +22,9 @@ export function createResolveSpecifier(): ResolveSpecifier {
 			".mjs": [".mts", ".mjs"],
 		},
 		extensions: [".ts", ".tsx", ".mts", ".cts", ".js", ".jsx", ".mjs", ".cjs"],
+		// Honoring tsconfig's `compilerOptions.paths` lets us follow aliased imports
+		// (e.g. `import x from "app/utils/foo"`), not just relative ones.
+		...(configFile && { tsconfig: { configFile, references: "auto" } }),
 	});
 
 	return (fromDirectory, specifier) => {
@@ -21,4 +35,15 @@ export function createResolveSpecifier(): ResolveSpecifier {
 
 		return path;
 	};
+}
+
+function resolveConfigFile({
+	cwd,
+	tsconfig,
+}: CreateResolveSpecifierSettings): string | undefined {
+	const configFile = tsconfig
+		? path.resolve(cwd, tsconfig)
+		: path.join(cwd, "tsconfig.json");
+
+	return existsSync(configFile) ? configFile : undefined;
 }

@@ -11,7 +11,7 @@ export async function runOnChanged(
 	settings: RunOnChangedSettings,
 	dependencies?: Partial<RunOnChangedDependencies>,
 ): Promise<number> {
-	const deps = { ...createDefaultDependencies(), ...dependencies };
+	const deps = { ...createDefaultDependencies(settings), ...dependencies };
 
 	const changedFiles = await deps.getChangedFiles(settings);
 	if (!changedFiles.length) {
@@ -33,12 +33,14 @@ export async function runOnChanged(
 	return deps.runCommand(command, [...commandArgs, ...[...impacted].sort()]);
 }
 
-function createDefaultDependencies(): RunOnChangedDependencies {
+function createDefaultDependencies(
+	settings: RunOnChangedSettings,
+): RunOnChangedDependencies {
 	return {
 		enumerateProjectFiles,
 		getChangedFiles,
 		parseFileSpecifiers,
-		resolveSpecifier: createResolveSpecifier(),
+		resolveSpecifier: createResolveSpecifier(settings),
 		runCommand,
 	};
 }
