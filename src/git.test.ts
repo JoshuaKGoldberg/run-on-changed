@@ -2,7 +2,7 @@ import { execFile } from "node:child_process";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
 
-import { getChangedFiles, isJsTsFile } from "./git.js";
+import { getChangedFiles, gitMaxBuffer, isJsTsFile } from "./git.js";
 
 vi.mock("node:child_process", () => ({ execFile: vi.fn() }));
 
@@ -61,5 +61,16 @@ describe(getChangedFiles, () => {
 		const changed = await getChangedFiles({ command: [], cwd });
 
 		expect(changed).toEqual([path.resolve(cwd, "src/a.ts")]);
+	});
+
+	it("passes an unbounded maxBuffer to git so large repositories do not overflow", async () => {
+		mockGit({ diff: "src/a.ts\n" });
+
+		await getChangedFiles({ command: [], cwd, since: "main" });
+
+		expect(vi.mocked(execFile).mock.calls[0][2]).toEqual({
+			cwd,
+			maxBuffer: gitMaxBuffer,
+		});
 	});
 });

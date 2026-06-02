@@ -3,7 +3,7 @@ import path from "node:path";
 import { promisify } from "node:util";
 import { glob } from "tinyglobby";
 
-import { isJsTsFile } from "./git.js";
+import { gitMaxBuffer, isJsTsFile } from "./git.js";
 import { RunOnChangedSettings } from "./types.js";
 
 const execFileAsync = promisify(execFile);
@@ -17,7 +17,10 @@ export async function enumerateProjectFiles(
 		return glob(files, { absolute: true, cwd });
 	}
 
-	const { stdout } = await execFileAsync("git", ["ls-files"], { cwd });
+	const { stdout } = await execFileAsync("git", ["ls-files"], {
+		cwd,
+		maxBuffer: gitMaxBuffer,
+	});
 
 	return stdout
 		.split("\n")

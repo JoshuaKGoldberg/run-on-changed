@@ -6,6 +6,10 @@ import { RunOnChangedSettings } from "./types.js";
 
 const execFileAsync = promisify(execFile);
 
+// `git ls-files` and `git diff` output scales with the size of the repository and can
+// exceed Node's default 1MB execFile maxBuffer on large repositories. Opt out of the limit.
+export const gitMaxBuffer = Infinity;
+
 const jsTsExtensions = new Set([
 	".cjs",
 	".cts",
@@ -39,7 +43,10 @@ export function isJsTsFile(filePath: string): boolean {
 }
 
 async function git(cwd: string, args: string[]): Promise<string[]> {
-	const { stdout } = await execFileAsync("git", args, { cwd });
+	const { stdout } = await execFileAsync("git", args, {
+		cwd,
+		maxBuffer: gitMaxBuffer,
+	});
 
 	return stdout.split("\n").filter(Boolean);
 }
