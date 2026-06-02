@@ -60,6 +60,15 @@ const exitCode = await runOnChanged({
 });
 ```
 
+### Debugging
+
+run-on-changed logs what it decides through [`debug-for-file`](https://github.com/JoshuaKGoldberg/debug-for-file).
+Set the `DEBUG` environment variable to see the changed files, the project-file count, and the full list of impacted files handed to your command:
+
+```shell
+DEBUG=run-on-changed:* npx run-on-changed --since origin/main -- eslint
+```
+
 `runOnChanged` returns the spawned command's exit code, or `0` when nothing is impacted.
 Lower-level building blocks (`buildDependencyGraph`, `reverseGraph`, `collectImpactedFiles`, `parseFileSpecifiers`, `createResolveSpecifier`, `getChangedFiles`, `enumerateProjectFiles`) are exported too.
 
