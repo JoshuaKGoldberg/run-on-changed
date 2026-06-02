@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.0](///compare/0.1.1...0.2.0) (2026-06-02)
+
+### Features
+
+- resolve tsconfig path aliases when building the import graph ([#12](undefined/undefined/undefined/issues/12)) cd760e0, closes #11
+
 ## [0.1.1](///compare/0.1.0...0.1.1) (2026-06-02)
 
 ### Bug Fixes
