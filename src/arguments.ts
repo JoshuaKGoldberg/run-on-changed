@@ -3,7 +3,7 @@ import { parseArgs } from "node:util";
 import { RunOnChangedSettings } from "./types.js";
 
 const usage =
-	"Usage: run-on-changed [--since <ref>] [--files <glob>]... -- <command>";
+	"Usage: run-on-changed [--since <ref>] [--files <glob>]... [--tsconfig <path>] -- <command>";
 
 export function parseArguments(argv: string[]): RunOnChangedSettings {
 	const separator = argv.indexOf("--");
@@ -16,6 +16,7 @@ export function parseArguments(argv: string[]): RunOnChangedSettings {
 		options: {
 			files: { multiple: true, type: "string" },
 			since: { type: "string" },
+			tsconfig: { type: "string" },
 		},
 	});
 
@@ -24,5 +25,6 @@ export function parseArguments(argv: string[]): RunOnChangedSettings {
 		cwd: process.cwd(),
 		files: values.files,
 		since: values.since,
+		tsconfig: values.tsconfig,
 	};
 }
