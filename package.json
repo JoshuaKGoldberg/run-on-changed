@@ -1,6 +1,6 @@
 {
 	"name": "run-on-changed",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Runs a command on all files transitively impacted by changes in JS/TS files. 🎯",
 	"repository": {
 		"type": "git",
