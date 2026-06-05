@@ -12,7 +12,8 @@
         "infra",
         "maintenance",
         "projectManagement",
-        "tool"
+        "tool",
+        "bug"
       ],
       "login": "JoshuaKGoldberg",
       "name": "Josh Goldberg ✨",
@@ -24,7 +25,7 @@
   "files": [
     "README.md"
   ],
-  "projectName": "run-on-changed-files",
+  "projectName": "run-on-changed",
   "projectOwner": "JoshuaKGoldberg",
   "repoType": "github",
   "commitConvention": "angular"
