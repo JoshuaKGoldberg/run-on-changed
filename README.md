@@ -1,7 +1,7 @@
 <h1 align="center">Run on Changed</h1>
 
 <p align="center">
-	Runs a command on all files transitively impacted by changes in JS/TS files.
+	Runs a command on the files you changed plus every JS/TS file that transitively imports them.
 	🎯
 </p>
 
@@ -20,7 +20,7 @@
 
 ## Usage
 
-Run a command on every file transitively impacted by your changed JS/TS files.
+Run a command on every file impacted by your changes: the files you changed, plus every JS/TS file that transitively imports them.
 The import/export graph is parsed in-memory with the native [oxc](https://oxc.rs) parser and resolver, so a file is included whenever it (transitively) imports something you changed — exactly what typed linting needs.
 
 ### CLI

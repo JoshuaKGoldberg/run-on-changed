@@ -1,7 +1,7 @@
 {
 	"name": "run-on-changed",
 	"version": "0.3.0",
-	"description": "Runs a command on all files transitively impacted by changes in JS/TS files. 🎯",
+	"description": "Runs a command on the files you changed plus every JS/TS file that transitively imports them. 🎯",
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/JoshuaKGoldberg/run-on-changed.git"

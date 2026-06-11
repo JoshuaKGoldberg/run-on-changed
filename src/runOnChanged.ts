@@ -20,7 +20,7 @@ export async function runOnChanged(
 	const changedFiles = await deps.getChangedFiles(settings);
 	log("%d changed file(s): %O", changedFiles.length, changedFiles);
 	if (!changedFiles.length) {
-		console.log("No changed JS/TS files. Skipping.");
+		console.log("No changed files. Skipping.");
 		return 0;
 	}
 

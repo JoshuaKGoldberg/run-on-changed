@@ -55,12 +55,15 @@ describe(getChangedFiles, () => {
 		expect(changed).toEqual([path.resolve(cwd, "src/a.ts")]);
 	});
 
-	it("excludes files that are not JS or TS", async () => {
+	it("includes changed files that are not JS or TS", async () => {
 		mockGit({ diff: "src/a.ts\nREADME.md\n", "ls-files": "" });
 
 		const changed = await getChangedFiles({ command: [], cwd });
 
-		expect(changed).toEqual([path.resolve(cwd, "src/a.ts")]);
+		expect(changed).toEqual([
+			path.resolve(cwd, "src/a.ts"),
+			path.resolve(cwd, "README.md"),
+		]);
 	});
 
 	it("passes an unbounded maxBuffer to git so large repositories do not overflow", async () => {
