@@ -33,9 +33,9 @@ export async function getChangedFiles(
 				...(await git(cwd, ["ls-files", "--others", "--exclude-standard"])),
 			];
 
-	return [...new Set(relativePaths)]
-		.filter(isJsTsFile)
-		.map((relativePath) => path.resolve(cwd, relativePath));
+	return [...new Set(relativePaths)].map((relativePath) =>
+		path.resolve(cwd, relativePath),
+	);
 }
 
 export function isJsTsFile(filePath: string): boolean {
