@@ -4,7 +4,7 @@
 	"description": "Runs a command on the files you changed plus every JS/TS file that transitively imports them. 🎯",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/JoshuaKGoldberg/run-on-changed.git"
+		"url": "git+https://github.com/getsentry/run-on-changed.git"
 	},
 	"license": "MIT",
 	"author": {

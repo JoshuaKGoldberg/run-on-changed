@@ -5,8 +5,8 @@ Otherwise we may not be able to review your PR. -->
 ## PR Checklist
 
 - [ ] Addresses an existing open issue: fixes #000
-- [ ] That issue was marked as [`status: accepting prs`](https://github.com/JoshuaKGoldberg/run-on-changed/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+accepting+prs%22)
-- [ ] Steps in [CONTRIBUTING.md](https://github.com/JoshuaKGoldberg/run-on-changed/blob/main/.github/CONTRIBUTING.md) were taken
+- [ ] That issue was marked as [`status: accepting prs`](https://github.com/getsentry/run-on-changed/issues?q=is%3Aopen+is%3Aissue+label%3A%22status%3A+accepting+prs%22)
+- [ ] Steps in [CONTRIBUTING.md](https://github.com/getsentry/run-on-changed/blob/main/.github/CONTRIBUTING.md) were taken
 
 ## Overview
 

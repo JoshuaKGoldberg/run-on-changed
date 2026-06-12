@@ -71,7 +71,7 @@ Add the `--coverage` flag to compute test coverage and place reports in the `cov
 pnpm run test --coverage
 ```
 
-Note that [console-fail-test](https://github.com/JoshuaKGoldberg/console-fail-test) is enabled for all test runs.
+Note that [console-fail-test](https://github.com/getsentry/console-fail-test) is enabled for all test runs.
 Calls to `console.log`, `console.warn`, and other console methods will cause a test to fail.
 
 ### Debugging Tests
